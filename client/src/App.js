@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LoginButton from "./component/loginButton";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -14,30 +15,36 @@ export default class App extends Component {
   render() {
     console.log(this.state.isAdminUser);
     return (
-      <div className="demo-app">
-        {this.renderSidebar()}
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            initialView="dayGridMonth"
-            editable={this.state.isAdminUser}
-            selectable={this.state.isAdminUser}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            initialEvents={INITIAL_EVENTS} //alternatively, use the 'events' setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} //custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-          />
+      <>
+        <div className="navbar">
+          <h1>Salpa Cal App</h1>
+          <LoginButton />
         </div>
-      </div>
+        <div className="demo-app">
+          {this.renderSidebar()}
+          <div className="demo-app-main">
+            <FullCalendar
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              headerToolbar={{
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
+              }}
+              initialView="dayGridMonth"
+              editable={this.state.isAdminUser}
+              selectable={this.state.isAdminUser}
+              selectMirror={true}
+              dayMaxEvents={true}
+              weekends={this.state.weekendsVisible}
+              initialEvents={INITIAL_EVENTS} //alternatively, use the 'events' setting to fetch from a feed
+              select={this.handleDateSelect}
+              eventContent={renderEventContent} //custom render function
+              eventClick={this.handleEventClick}
+              eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+            />
+          </div>
+        </div>
+      </>
     );
   }
 
