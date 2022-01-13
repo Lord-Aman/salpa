@@ -4,6 +4,10 @@ const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  res.send("Register Page");
+});
+
 router.get("/me", async (req, res) => {
   const user = await User.findById(req.user_id).select("-password");
   res.send(user);

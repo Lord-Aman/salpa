@@ -29,6 +29,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-
-//TODO: Only a User Now,
-// Register a User and Upload it to a Dabase
