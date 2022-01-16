@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg  navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
         Salpa Cal
       </Link>
