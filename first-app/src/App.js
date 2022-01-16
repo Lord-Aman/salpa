@@ -101,7 +101,7 @@ class Calendar extends Component {
   handleEventClick = (clickInfo) => {
     if (this.state.isAdminUser) {
       if (
-        confirm(
+        window.confirm(
           `Are you sure you want to delete the event '${clickInfo.event.title}'`
         )
       ) {
