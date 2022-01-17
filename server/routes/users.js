@@ -9,9 +9,9 @@ router.get("/me", async (req, res) => {
   res.send(user);
 });
 
-router.get("/",async(req,res) => {
-  res.send('Register page')
-})
+router.get("/", async (req, res) => {
+  res.send("Register page");
+});
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body); // req.body is the user input by client
@@ -29,6 +29,7 @@ router.post("/", async (req, res) => {
   const token = user.generateAuthToken();
   res
     .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
     .send(_.pick(user, ["_id", "name", "email", "isAdmin"]));
 });
 
