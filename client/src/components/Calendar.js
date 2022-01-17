@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Axios from "axios";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -17,7 +18,14 @@ class Calendar extends Component {
     return false;
   };
 
+  async componentDidMount() {
+    const events = await Axios.get("http://localhost:8080/api/event");
+    this.setState({ currentEvents: events.data });
+  }
+
   render() {
+    const events = this.state.currentEvents;
+
     return (
       <>
         <div className="demo-app">
@@ -36,6 +44,7 @@ class Calendar extends Component {
               selectMirror={true}
               dayMaxEvents={true}
               initialEvents={INITIAL_EVENTS} //alternatively, use the 'events' setting to fetch from a feed
+              events={"http://localhost:8080/api/event"}
               select={this.handleDateSelect}
               eventContent={renderEventContent} //custom render function
               eventClick={this.handleEventClick}
@@ -77,10 +86,17 @@ class Calendar extends Component {
         end: selectInfo.endStr,
         allDay: selectInfo.addDay,
       });
+
+      Axios.post("http://localhost:8080/api/event", {
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.addDay,
+      });
     }
   };
 
-  handleEventClick = (clickInfo) => {
+  handleEventClick = async (clickInfo) => {
     const isAdmin = this.isAdmin();
     if (isAdmin) {
       if (
@@ -88,6 +104,9 @@ class Calendar extends Component {
           `Are you sure you want to delete the event '${clickInfo.event.title}'`
         )
       ) {
+        await Axios.delete("http://localhost:8080/api/event", {
+          data: { id: clickInfo.event._def.extendedProps._id },
+        });
         clickInfo.event.remove();
       }
     }
@@ -109,7 +128,7 @@ function renderEventContent(eventInfo) {
 
 function renderSidebarEvent(event) {
   return (
-    <li key={event.id}>
+    <li key={event._id}>
       <b>
         {formatDate(event.start, {
           year: "numeric",
